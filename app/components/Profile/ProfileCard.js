@@ -29,7 +29,7 @@ const ProfileCard = props => {
                 >
                     <Card.Content style={styles.cardContainer} >
                         <Text numberOfLines={1} style={styles.title}>{props.title}</Text>
-                        <Subheading style={styles.subheading}>{props.subheading}</Subheading>
+                        <Subheading numberOfLines={1} style={styles.subheading}>{props.subheading}</Subheading>
                     </Card.Content>
                 </TouchableRipple>
             </Card>
