@@ -1,6 +1,9 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
+import { HeaderButtons, Item } from "react-navigation-header-buttons"
+
+import CustomHeaderButton from "../components/CustomHeaderButton";
 
 const ExampleScreen = props => {
     return (
@@ -14,6 +17,20 @@ const ExampleScreen = props => {
             >Open profile</Button>
         </View>
     );
+};
+
+ExampleScreen.navigationOptions = navData => {
+    return {
+        headerLeft: () => (
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+                <Item
+                    title="Menu"
+                    iconName="menu"
+                    onPress={navData.navigation.toggleDrawer}
+                />
+            </HeaderButtons>
+        )
+    };
 };
 
 const styles = StyleSheet.create({
