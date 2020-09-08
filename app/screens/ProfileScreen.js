@@ -1,21 +1,54 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
-import { Provider as PaperProvider, Button, TouchableRipple } from "react-native-paper";
+import { Provider as PaperProvider, Button, TouchableRipple, ActivityIndicator, Colors } from "react-native-paper";
+
+import API from "../utils/API";
 
 import theme from "../constants/theme";
 
 import ProfileMainCard from "../components/Profile/ProfileMainCard";
 import ProfileCard from "../components/Profile/ProfileCard";
 
-const ProfileScreen = () => {
+const ProfileScreen = props => {
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [profileInfo, setProfileInfo] = useState();
+    console.log(props)
+
+    useEffect(() => {
+        loadProfileInfo();
+    }, [])
+
+    const loadProfileInfo = () => {
+        console.log("param", props.navigation.getParam("userId"));
+        API.findUserById(props.navigation.getParam("userId"))
+            .then(({ data }) => {
+                setProfileInfo(data);
+                setIsLoaded(true);
+                console.log(profileInfo);
+            })
+            .catch(err => console.log(err));
+    };
+
+    if (!isLoaded) {
+        return (
+            <PaperProvider theme={theme}>
+                <ActivityIndicator
+                    animating
+                    color={Colors.red800}
+                    size="large"
+                />
+            </PaperProvider >
+        );
+    }
+
     return (
         <PaperProvider theme={theme}>
             <ScrollView>
                 <View style={styles.screen}>
                     <ProfileMainCard
-                        name="Name Name"
-                        status="Isn't that just awesome?!"
-                        image="https://picsum.photos/700"
+                        name={profileInfo.name}
+                        status={profileInfo.status}
+                        image={profileInfo.profilePicture}
                     />
 
 
@@ -24,7 +57,7 @@ const ProfileScreen = () => {
                             isTouchable
                             width="48%"
                             height="100%"
-                            title="21"
+                            title={profileInfo.friends}
                             subheading="friends"
                         />
 
@@ -32,14 +65,14 @@ const ProfileScreen = () => {
                             isTouchable
                             width="24%"
                             height="100%"
-                            title="14"
+                            title={profileInfo.posts}
                             subheading="posts"
                         />
 
                         <ProfileCard
                             width="24%"
                             height="100%"
-                            title="242"
+                            title={profileInfo.likes}
                             subheading="likes"
                         />
 
@@ -50,15 +83,15 @@ const ProfileScreen = () => {
                             isTouchable
                             width="24%"
                             height="100%"
-                            title="2"
-                            subheading="friends"
+                            title={profileInfo.comments}
+                            subheading="comments"
                         />
 
                         <ProfileCard
                             width="72%"
                             height="100%"
-                            title="2"
-                            subheading="friends"
+                            title={profileInfo.specialMember ? "IS" : "NOT"}
+                            subheading="a special member"
                         />
 
                     </View>
