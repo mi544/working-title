@@ -5,7 +5,8 @@ import { createDrawerNavigator } from "react-navigation-drawer";
 import TabsNavigator from "./TabsNavigator";
 
 const MainNavigator = createDrawerNavigator({
-    Main: TabsNavigator
+    Main: TabsNavigator,
+    Messages: TabsNavigator
 });
 
 
