@@ -5,8 +5,10 @@ import { createDrawerNavigator } from "react-navigation-drawer";
 import TabsNavigator from "./TabsNavigator";
 
 const MainNavigator = createDrawerNavigator({
-    Main: TabsNavigator,
-    Messages: TabsNavigator
+    Profile: { screen: TabsNavigator, navigationOptions: { drawerLabel: "Profile" } },
+    Messages: { screen: TabsNavigator, navigationOptions: { drawerLabel: "Messages" } },
+    MusicSheet: { screen: TabsNavigator, navigationOptions: { drawerLabel: "Create a _" } },
+    Settings: { screen: TabsNavigator, navigationOptions: { drawerLabel: "Settings" } }
 });
 
 

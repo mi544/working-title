@@ -9,7 +9,7 @@ import ExampleStackNavigator from "./ExampleStackNavigator";
 import FriendsStackNavigator from "./FriendsStackNavigator";
 
 const tabScreenConfig = {
-    Foo: {
+    Home: {
         screen: ExampleStackNavigator,
         navigationOptions: {
 
