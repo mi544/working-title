@@ -8,13 +8,13 @@ import CustomHeaderButton from "../components/CustomHeaderButton";
 const ExampleScreen = props => {
     return (
         <View style={styles.screen}>
-            <Text>Example Screen Here!</Text>
+            <Text>Hello!</Text>
             <Button
                 mode="outlined"
                 onPress={() => {
                     props.navigation.navigate("Profile");
                 }}
-            >Open profile</Button>
+            >Refresh</Button>
         </View>
     );
 };

@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, ScrollView, FlatList } from "react-native";
-import { Provider as PaperProvider, ActivityIndicator, Colors } from "react-native-paper";
+import { StyleSheet, FlatList } from "react-native";
+import { Provider as PaperProvider } from "react-native-paper";
+import { HeaderButtons, Item } from "react-navigation-header-buttons"
 
 import API from "../utils/API";
 
 import theme from "../constants/theme";
 
+import CustomHeaderButton from "../components/CustomHeaderButton";
 import FriendCard from "../components/Friends/FriendCard";
+import Loading from "../components/Loading";
 
 const FriendsListScreen = props => {
 
@@ -36,13 +39,7 @@ const FriendsListScreen = props => {
 
     if (!isLoaded) {
         return (
-            <PaperProvider theme={theme}>
-                <ActivityIndicator
-                    animating
-                    color={Colors.red800}
-                    size="large"
-                />
-            </PaperProvider >
+            <Loading />
         );
     }
 
@@ -55,6 +52,20 @@ const FriendsListScreen = props => {
             />
         </PaperProvider >
     );
+};
+
+FriendsListScreen.navigationOptions = navData => {
+    return {
+        headerLeft: () => (
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+                <Item
+                    title="Menu"
+                    iconName="menu"
+                    onPress={navData.navigation.toggleDrawer}
+                />
+            </HeaderButtons>
+        )
+    };
 };
 
 const styles = StyleSheet.create({
