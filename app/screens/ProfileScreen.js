@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
-import { Provider as PaperProvider, Button } from "react-native-paper";
+import { Provider as PaperProvider, Button, TouchableRipple } from "react-native-paper";
 
 import theme from "../constants/theme";
 
@@ -18,14 +18,18 @@ const ProfileScreen = () => {
                         image="https://picsum.photos/700"
                     />
 
+
                     <View style={styles.profileCardsContainer}>
                         <ProfileCard
+                            isTouchable
                             width="48%"
                             height="100%"
                             title="21"
                             subheading="friends"
                         />
+
                         <ProfileCard
+                            isTouchable
                             width="24%"
                             height="100%"
                             title="14"
@@ -43,6 +47,7 @@ const ProfileScreen = () => {
 
                     <View style={styles.profileCardsContainer}>
                         <ProfileCard
+                            isTouchable
                             width="24%"
                             height="100%"
                             title="2"
