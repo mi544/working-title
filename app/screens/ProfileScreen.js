@@ -81,14 +81,14 @@ const ProfileScreen = props => {
                     <View style={styles.profileCardsContainer}>
                         <ProfileCard
                             isTouchable
-                            width="24%"
+                            width="30%"
                             height="100%"
                             title={profileInfo.comments}
                             subheading="comments"
                         />
 
                         <ProfileCard
-                            width="72%"
+                            width="66%"
                             height="100%"
                             title={profileInfo.specialMember ? "IS" : "NOT"}
                             subheading="a special member"
@@ -114,9 +114,7 @@ const ProfileScreen = props => {
     );
 };
 
-ProfileScreen.navigationOptions = {
-    headerTitle: "Name Name"
-};
+ProfileScreen.navigationOptions = { headerTitle: "Profile" };
 
 const styles = StyleSheet.create({
     screen: {
