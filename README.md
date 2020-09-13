@@ -6,4 +6,4 @@ The current version in development can be accessed here:
 <https://expo.io/@mi544/working-title>
 |  |  |
 | ------------ | --------- |
-![screenshot 1](assets\images\working-title.png) | ![screenshot 2](assets\images\working-title2.png)
+![screenshot 1](./assets/images/working-title.png) | ![screenshot 2](assets/images/working-title2.png)
