@@ -18,19 +18,16 @@ import ProfileCard from "../components/Profile/ProfileCard";
 const ProfileScreen = props => {
     const [isLoaded, setIsLoaded] = useState(false);
     const [profileInfo, setProfileInfo] = useState();
-    console.log(props);
 
     useEffect(() => {
         loadProfileInfo();
     }, []);
 
     const loadProfileInfo = () => {
-        console.log("param", props.navigation.getParam("userId"));
         API.findUserById(props.navigation.getParam("userId"))
             .then(({ data }) => {
                 setProfileInfo(data);
                 setIsLoaded(true);
-                console.log(profileInfo);
             })
             .catch(err => console.log(err));
     };
