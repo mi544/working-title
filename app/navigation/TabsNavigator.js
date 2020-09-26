@@ -5,12 +5,12 @@ import { createMaterialBottomTabNavigator } from "react-navigation-material-bott
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import ExampleStackNavigator from "./ExampleStackNavigator";
+import FeedStackNavigator from "./FeedStackNavigator";
 import FriendsStackNavigator from "./FriendsStackNavigator";
 
 const tabScreenConfig = {
-    Home: {
-        screen: ExampleStackNavigator,
+    Feed: {
+        screen: FeedStackNavigator,
         navigationOptions: {
             tabBarIcon: tabInfo => (
                 <MaterialCommunityIcons name="home-circle" size={26} />
