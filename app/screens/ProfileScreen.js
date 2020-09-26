@@ -60,7 +60,7 @@ const ProfileScreen = props => {
                     <View style={styles.profileCardsContainer}>
                         <ProfileCard
                             isTouchable
-                            width="48%"
+                            width="40%"
                             height="100%"
                             title={profileInfo.friends}
                             subheading="friends"
@@ -75,7 +75,7 @@ const ProfileScreen = props => {
                         />
 
                         <ProfileCard
-                            width="24%"
+                            width="32%"
                             height="100%"
                             title={profileInfo.likes}
                             subheading="likes"
