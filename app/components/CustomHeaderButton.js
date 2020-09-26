@@ -1,6 +1,6 @@
 import React from "react";
 import { HeaderButton } from "react-navigation-header-buttons";
-import { MaterialCommunityIcons } from "@expo/vector-icons"
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const CustomHeaderButton = props => {
     return (
@@ -8,7 +8,7 @@ const CustomHeaderButton = props => {
             {...props}
             IconComponent={MaterialCommunityIcons}
             iconSize={23}
-        // color={}
+            // color={}
         />
     );
 };

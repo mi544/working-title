@@ -1,11 +1,11 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
-import { HeaderButtons, Item } from "react-navigation-header-buttons"
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
 import CustomHeaderButton from "../components/CustomHeaderButton";
 
-const ExampleScreen = props => {
+const MainScreen = props => {
     return (
         <View style={styles.screen}>
             <Text>Hello!</Text>
@@ -14,12 +14,14 @@ const ExampleScreen = props => {
                 onPress={() => {
                     props.navigation.navigate("Profile");
                 }}
-            >Refresh</Button>
+            >
+                Refresh
+            </Button>
         </View>
     );
 };
 
-ExampleScreen.navigationOptions = navData => {
+MainScreen.navigationOptions = navData => {
     return {
         headerLeft: () => (
             <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
@@ -41,4 +43,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default ExampleScreen;
+export default MainScreen;

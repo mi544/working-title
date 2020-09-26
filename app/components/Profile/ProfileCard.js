@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, StyleSheet } from "react-native";
-import { Card, Subheading, TouchableRipple } from 'react-native-paper';
+import { Card, Subheading, TouchableRipple } from "react-native-paper";
 
 import theme from "../../constants/theme";
 
@@ -8,11 +8,20 @@ const ProfileCard = props => {
     let card = (
         <Card
             theme={{ ...theme, roundness: 20 }}
-            style={{ height: props.height, width: props.width, borderWidth: 1, borderColor: "#ccc" }}
+            style={{
+                height: props.height,
+                width: props.width,
+                borderWidth: 1,
+                borderColor: "#ccc"
+            }}
         >
-            <Card.Content style={styles.cardContainer} >
-                <Text numberOfLines={1} style={styles.title}>{props.title}</Text>
-                <Subheading style={styles.subheading}>{props.subheading}</Subheading>
+            <Card.Content style={styles.cardContainer}>
+                <Text numberOfLines={1} style={styles.title}>
+                    {props.title}
+                </Text>
+                <Subheading style={styles.subheading}>
+                    {props.subheading}
+                </Subheading>
             </Card.Content>
         </Card>
     );
@@ -21,15 +30,22 @@ const ProfileCard = props => {
         card = (
             <Card
                 theme={{ ...theme, roundness: 20 }}
-                style={{ height: props.height, width: props.width, overflow: "hidden", borderWidth: 1.2, borderColor: theme.colors.primary }}
+                style={{
+                    height: props.height,
+                    width: props.width,
+                    overflow: "hidden",
+                    borderWidth: 1.2,
+                    borderColor: theme.colors.primary
+                }}
             >
-                <TouchableRipple
-                    style={{ flex: 1 }}
-                    onPress={() => { }}
-                >
-                    <Card.Content style={styles.cardContainer} >
-                        <Text numberOfLines={1} style={styles.title}>{props.title}</Text>
-                        <Subheading numberOfLines={1} style={styles.subheading}>{props.subheading}</Subheading>
+                <TouchableRipple style={{ flex: 1 }} onPress={() => {}}>
+                    <Card.Content style={styles.cardContainer}>
+                        <Text numberOfLines={1} style={styles.title}>
+                            {props.title}
+                        </Text>
+                        <Subheading numberOfLines={1} style={styles.subheading}>
+                            {props.subheading}
+                        </Subheading>
                     </Card.Content>
                 </TouchableRipple>
             </Card>
@@ -46,7 +62,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     title: {
-        fontSize: 35,
+        fontSize: 35
     },
     subheading: {
         fontSize: 16

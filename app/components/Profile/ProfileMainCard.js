@@ -1,14 +1,18 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { Card, Text, Subheading } from 'react-native-paper';
+import { Card, Text, Subheading } from "react-native-paper";
 
 const ProfileMainCard = props => {
     return (
         <Card>
             <View style={styles.profileContainer}>
                 <View style={styles.nameContainer}>
-                    <Text numberOfLines={1} style={styles.name}>{props.name}</Text>
-                    <Subheading numberOfLines={2} style={styles.status}>"{props.status}"</Subheading>
+                    <Text numberOfLines={1} style={styles.name}>
+                        {props.name}
+                    </Text>
+                    <Subheading numberOfLines={2} style={styles.status}>
+                        "{props.status}"
+                    </Subheading>
                 </View>
                 <View style={styles.profileAvatarContainer}>
                     <Card.Cover

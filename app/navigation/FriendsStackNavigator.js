@@ -8,5 +8,4 @@ const FriendsStackNavigator = createStackNavigator({
     Profile: ProfileScreen
 });
 
-
 export default FriendsStackNavigator;

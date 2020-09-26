@@ -1,12 +1,11 @@
 import { createStackNavigator } from "react-navigation-stack";
 
-import ExampleScreen from "../screens/ExampleScreen";
+import MainScreen from "../screens/MainScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 
 const ExampleStackNavigator = createStackNavigator({
-    Main: ExampleScreen,
+    Main: MainScreen,
     Profile: ProfileScreen
 });
-
 
 export default ExampleStackNavigator;

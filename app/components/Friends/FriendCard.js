@@ -1,8 +1,15 @@
 import React from "react";
-import { View, StyleSheet, TouchableNativeFeedback, TouchableOpacity, Platform } from "react-native";
-import { Card, Text } from 'react-native-paper';
+import {
+    View,
+    StyleSheet,
+    TouchableNativeFeedback,
+    TouchableOpacity,
+    Platform
+} from "react-native";
+import { Card, Text } from "react-native-paper";
 
-const Touchable = Platform.OS === "android" ? TouchableNativeFeedback : TouchableOpacity;
+const Touchable =
+    Platform.OS === "android" ? TouchableNativeFeedback : TouchableOpacity;
 
 const FriendCard = props => {
     return (
@@ -12,7 +19,12 @@ const FriendCard = props => {
                     <View style={styles.profileContainer}>
                         <View style={{ flexDirection: "row" }}>
                             <View style={styles.profileNameContainer}>
-                                <Text numberOfLines={1} style={styles.profileName}>{props.name}</Text>
+                                <Text
+                                    numberOfLines={1}
+                                    style={styles.profileName}
+                                >
+                                    {props.name}
+                                </Text>
                             </View>
                             <View style={styles.profileAvatarContainer}>
                                 <Card.Cover
@@ -40,7 +52,7 @@ const styles = StyleSheet.create({
         marginVertical: 10
     },
     profileContainer: {
-        flexDirection: "row",
+        flexDirection: "row"
     },
     profileNameContainer: {
         width: "65%",

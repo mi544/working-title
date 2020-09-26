@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, FlatList } from "react-native";
 import { Provider as PaperProvider } from "react-native-paper";
-import { HeaderButtons, Item } from "react-navigation-header-buttons"
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
 import API from "../utils/API";
 
@@ -12,12 +12,15 @@ import FriendCard from "../components/Friends/FriendCard";
 import Loading from "../components/Loading";
 
 const FriendsListScreen = props => {
-
     const showProfiles = itemData => (
         <FriendCard
             name={itemData.item.name}
             image={itemData.item.profilePicture}
-            onProfileClick={() => props.navigation.navigate("Profile", { userId: itemData.item.userId })}
+            onProfileClick={() =>
+                props.navigation.navigate("Profile", {
+                    userId: itemData.item.userId
+                })
+            }
         />
     );
 
@@ -26,7 +29,7 @@ const FriendsListScreen = props => {
 
     useEffect(() => {
         loadFriends();
-    }, [])
+    }, []);
 
     const loadFriends = () => {
         API.findAllUsers()
@@ -38,9 +41,7 @@ const FriendsListScreen = props => {
     };
 
     if (!isLoaded) {
-        return (
-            <Loading />
-        );
+        return <Loading />;
     }
 
     return (
@@ -50,7 +51,7 @@ const FriendsListScreen = props => {
                 data={allFriends}
                 renderItem={showProfiles}
             />
-        </PaperProvider >
+        </PaperProvider>
     );
 };
 
@@ -68,8 +69,6 @@ FriendsListScreen.navigationOptions = navData => {
     };
 };
 
-const styles = StyleSheet.create({
-
-});
+const styles = StyleSheet.create({});
 
 export default FriendsListScreen;

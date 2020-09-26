@@ -3,5 +3,5 @@ import { SERVER } from "@env";
 
 export default {
     findAllUsers: () => axios.get(`${SERVER}/api/users`),
-    findUserById: (id) => axios.get(`${SERVER}/api/users/${id}`)
+    findUserById: id => axios.get(`${SERVER}/api/users/${id}`)
 };

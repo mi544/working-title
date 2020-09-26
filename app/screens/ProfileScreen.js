@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
-import { Provider as PaperProvider, Button, TouchableRipple, ActivityIndicator, Colors } from "react-native-paper";
+import {
+    Provider as PaperProvider,
+    Button,
+    TouchableRipple,
+    ActivityIndicator,
+    Colors
+} from "react-native-paper";
 
 import API from "../utils/API";
 
@@ -12,11 +18,11 @@ import ProfileCard from "../components/Profile/ProfileCard";
 const ProfileScreen = props => {
     const [isLoaded, setIsLoaded] = useState(false);
     const [profileInfo, setProfileInfo] = useState();
-    console.log(props)
+    console.log(props);
 
     useEffect(() => {
         loadProfileInfo();
-    }, [])
+    }, []);
 
     const loadProfileInfo = () => {
         console.log("param", props.navigation.getParam("userId"));
@@ -37,7 +43,7 @@ const ProfileScreen = props => {
                     color={Colors.red800}
                     size="large"
                 />
-            </PaperProvider >
+            </PaperProvider>
         );
     }
 
@@ -50,7 +56,6 @@ const ProfileScreen = props => {
                         status={profileInfo.status}
                         image={profileInfo.profilePicture}
                     />
-
 
                     <View style={styles.profileCardsContainer}>
                         <ProfileCard
@@ -75,7 +80,6 @@ const ProfileScreen = props => {
                             title={profileInfo.likes}
                             subheading="likes"
                         />
-
                     </View>
 
                     <View style={styles.profileCardsContainer}>
@@ -93,7 +97,6 @@ const ProfileScreen = props => {
                             title={profileInfo.specialMember ? "IS" : "NOT"}
                             subheading="a special member"
                         />
-
                     </View>
 
                     <View style={styles.addButtonContainer}>
@@ -102,15 +105,14 @@ const ProfileScreen = props => {
                             icon="account-plus"
                             contentStyle={styles.addButton}
                             theme={{ ...theme }}
-                            onPress={() => { }}
+                            onPress={() => {}}
                         >
                             Add to friends
                         </Button>
                     </View>
-
                 </View>
             </ScrollView>
-        </PaperProvider >
+        </PaperProvider>
     );
 };
 
@@ -141,7 +143,5 @@ const styles = StyleSheet.create({
         height: "100%"
     }
 });
-
-
 
 export default ProfileScreen;

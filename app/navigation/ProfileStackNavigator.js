@@ -6,5 +6,4 @@ const ProfileStackNavigator = createStackNavigator({
     Profile: ProfileScreen
 });
 
-
 export default ProfileStackNavigator;
