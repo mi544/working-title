@@ -7,11 +7,13 @@ import { enableScreens } from "react-native-screens";
 
 import MainNavigator from "./navigation/MainNavigator";
 import friendsReducer from "./store/reducers/friends";
+import profileReducer from "./store/reducers/profile";
 
 enableScreens();
 
 const rootReducer = combineReducers({
-    friends: friendsReducer
+    friends: friendsReducer,
+    profile: profileReducer
 });
 
 // TODO REMOVE (DEBUGGING ONLY)
