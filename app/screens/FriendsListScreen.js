@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, FlatList } from "react-native";
+import React, { useState, useEffect, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { StyleSheet, FlatList, Text } from "react-native";
 import { Provider as PaperProvider } from "react-native-paper";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
-import API from "../utils/API";
+import { fetchFriends } from "../store/actions/fetchFriends";
 
 import theme from "../constants/theme";
 
@@ -12,6 +13,8 @@ import FriendCard from "../components/Friends/FriendCard";
 import Loading from "../components/Loading";
 
 const FriendsListScreen = props => {
+    const dispatch = useDispatch();
+
     const showProfiles = itemData => (
         <FriendCard
             name={itemData.item.name}
@@ -24,31 +27,36 @@ const FriendsListScreen = props => {
         />
     );
 
-    const [isLoaded, setIsLoaded] = useState(false);
-    const [allFriends, setAllFriends] = useState();
+    const loadAllFriends = useCallback(
+        () => {
+            dispatch(fetchFriends());
+        },
+        // TODO
+        // should be re-created when logged in person's id changes
+        [dispatch]
+    );
 
     useEffect(() => {
-        loadFriends();
+        loadAllFriends();
     }, []);
 
-    const loadFriends = () => {
-        API.findAllUsers()
-            .then(({ data }) => {
-                setAllFriends(data);
-                setIsLoaded(true);
-            })
-            .catch(err => console.log(err));
-    };
+    const isFetching = useSelector(state => state.friends.isFetching);
+    const isError = useSelector(state => state.friends.error);
+    const friends = useSelector(state => state.friends.friends);
 
-    if (!isLoaded) {
+    if (isFetching) {
         return <Loading />;
+    }
+
+    if (isError) {
+        return <Text>Error</Text>;
     }
 
     return (
         <PaperProvider theme={theme}>
             <FlatList
                 keyExtractor={item => String(item.id)}
-                data={allFriends}
+                data={friends}
                 renderItem={showProfiles}
             />
         </PaperProvider>
