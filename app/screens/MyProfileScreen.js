@@ -1,12 +1,8 @@
 import React, { useEffect, useCallback } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
-import {
-    Provider as PaperProvider,
-    Button,
-    ActivityIndicator,
-    Colors
-} from "react-native-paper";
+import { Provider as PaperProvider } from "react-native-paper";
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
 import { fetchProfile } from "../store/actions/fetchProfile";
 
@@ -14,12 +10,35 @@ import theme from "../constants/theme";
 import ProfileMainCard from "../components/Profile/ProfileMainCard";
 import ProfileCard from "../components/Profile/ProfileCard";
 import Loading from "../components/Loading";
+import CustomHeaderButton from "../components/CustomHeaderButton";
 
-const ProfileScreen = props => {
-    const userId = props.navigation.getParam("userId");
-    const profile = useSelector(state =>
-        state.friends.friends.find(profile => profile.id === userId)
+const MyProfileScreen = props => {
+    const dispatch = useDispatch();
+
+    const loadProfile = useCallback(
+        () => {
+            dispatch(fetchProfile());
+        },
+        // TODO
+        // should be re-created when logged in person's id changes
+        [dispatch]
     );
+
+    useEffect(() => {
+        loadProfile();
+    }, []);
+
+    const isFetching = useSelector(state => state.profile.isFetching);
+    const isError = useSelector(state => state.profile.error);
+    const profile = useSelector(state => state.profile.profile);
+
+    if (isFetching || !profile) {
+        return <Loading />;
+    }
+
+    if (isError) {
+        return <Text>Error</Text>;
+    }
 
     return (
         <PaperProvider theme={theme}>
@@ -72,27 +91,24 @@ const ProfileScreen = props => {
                             subheading="a special member"
                         />
                     </View>
-
-                    <View style={styles.addButtonContainer}>
-                        <Button
-                            mode="contained"
-                            icon="account-plus"
-                            contentStyle={styles.addButton}
-                            theme={{ ...theme }}
-                            onPress={() => {}}
-                        >
-                            Add to friends
-                        </Button>
-                    </View>
                 </View>
             </ScrollView>
         </PaperProvider>
     );
 };
 
-ProfileScreen.navigationOptions = navigationData => {
-    const userName = navigationData.navigation.getParam("userName");
-    return { headerTitle: `${userName}'s Profile` };
+MyProfileScreen.navigationOptions = navData => {
+    return {
+        headerLeft: () => (
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+                <Item
+                    title="Menu"
+                    iconName="menu"
+                    onPress={navData.navigation.toggleDrawer}
+                />
+            </HeaderButtons>
+        )
+    };
 };
 
 const styles = StyleSheet.create({
@@ -121,4 +137,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default ProfileScreen;
+export default MyProfileScreen;
