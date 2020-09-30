@@ -7,7 +7,7 @@ export const showFriends = () => {
 };
 
 export const errorFriends = () => {
-    return { type: ERROR_FRIENDS };
+    return { type: SHOW_FRIENDS };
 };
 
 export const receiveFriends = friends => {
