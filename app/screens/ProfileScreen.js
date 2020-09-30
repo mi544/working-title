@@ -1,57 +1,34 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
+import { useSelector } from "react-redux";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import {
     Provider as PaperProvider,
     Button,
-    TouchableRipple,
     ActivityIndicator,
     Colors
 } from "react-native-paper";
 
-import API from "../utils/API";
+import { fetchProfile } from "../store/actions/fetchProfile";
 
 import theme from "../constants/theme";
-
 import ProfileMainCard from "../components/Profile/ProfileMainCard";
 import ProfileCard from "../components/Profile/ProfileCard";
+import Loading from "../components/Loading";
 
 const ProfileScreen = props => {
-    const [isLoaded, setIsLoaded] = useState(false);
-    const [profileInfo, setProfileInfo] = useState();
-
-    useEffect(() => {
-        loadProfileInfo();
-    }, []);
-
-    const loadProfileInfo = () => {
-        API.findUserById(props.navigation.getParam("userId"))
-            .then(({ data }) => {
-                setProfileInfo(data);
-                setIsLoaded(true);
-            })
-            .catch(err => console.log(err));
-    };
-
-    if (!isLoaded) {
-        return (
-            <PaperProvider theme={theme}>
-                <ActivityIndicator
-                    animating
-                    color={Colors.red800}
-                    size="large"
-                />
-            </PaperProvider>
-        );
-    }
+    const userId = props.navigation.getParam("userId");
+    const profile = useSelector(state =>
+        state.friends.friends.find(profile => profile.id === userId)
+    );
 
     return (
         <PaperProvider theme={theme}>
             <ScrollView>
                 <View style={styles.screen}>
                     <ProfileMainCard
-                        name={profileInfo.name}
-                        status={profileInfo.status}
-                        image={profileInfo.profilePicture}
+                        name={profile.name}
+                        status={profile.status}
+                        image={profile.profilePicture}
                     />
 
                     <View style={styles.profileCardsContainer}>
@@ -59,7 +36,7 @@ const ProfileScreen = props => {
                             isTouchable
                             width="40%"
                             height="100%"
-                            title={profileInfo.friends}
+                            title={profile.friends}
                             subheading="friends"
                         />
 
@@ -67,14 +44,14 @@ const ProfileScreen = props => {
                             isTouchable
                             width="24%"
                             height="100%"
-                            title={profileInfo.posts}
+                            title={profile.posts}
                             subheading="posts"
                         />
 
                         <ProfileCard
                             width="32%"
                             height="100%"
-                            title={profileInfo.likes}
+                            title={profile.likes}
                             subheading="likes"
                         />
                     </View>
@@ -84,14 +61,14 @@ const ProfileScreen = props => {
                             isTouchable
                             width="30%"
                             height="100%"
-                            title={profileInfo.comments}
+                            title={profile.comments}
                             subheading="comments"
                         />
 
                         <ProfileCard
                             width="66%"
                             height="100%"
-                            title={profileInfo.specialMember ? "IS" : "NOT"}
+                            title={profile.specialMember ? "IS" : "NOT"}
                             subheading="a special member"
                         />
                     </View>
