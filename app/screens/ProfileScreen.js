@@ -90,7 +90,10 @@ const ProfileScreen = props => {
     );
 };
 
-ProfileScreen.navigationOptions = { headerTitle: "Profile" };
+ProfileScreen.navigationOptions = navigationData => {
+    const userName = navigationData.navigation.getParam("userName");
+    return { headerTitle: `${userName}'s Profile` };
+};
 
 const styles = StyleSheet.create({
     screen: {

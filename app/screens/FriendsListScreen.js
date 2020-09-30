@@ -46,7 +46,8 @@ const FriendsListScreen = props => {
             image={itemData.item.profilePicture}
             onProfileClick={() =>
                 props.navigation.navigate("Profile", {
-                    userId: itemData.item.userId
+                    userId: itemData.item.userId,
+                    userName: itemData.item.name
                 })
             }
         />
@@ -76,7 +77,5 @@ FriendsListScreen.navigationOptions = navData => {
         )
     };
 };
-
-const styles = StyleSheet.create({});
 
 export default FriendsListScreen;
