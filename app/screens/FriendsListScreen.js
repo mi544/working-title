@@ -15,18 +15,6 @@ import Loading from "../components/Loading";
 const FriendsListScreen = props => {
     const dispatch = useDispatch();
 
-    const showProfiles = itemData => (
-        <FriendCard
-            name={itemData.item.name}
-            image={itemData.item.profilePicture}
-            onProfileClick={() =>
-                props.navigation.navigate("Profile", {
-                    userId: itemData.item.userId
-                })
-            }
-        />
-    );
-
     const loadAllFriends = useCallback(
         () => {
             dispatch(fetchFriends());
@@ -51,6 +39,18 @@ const FriendsListScreen = props => {
     if (isError) {
         return <Text>Error</Text>;
     }
+
+    const showProfiles = itemData => (
+        <FriendCard
+            name={itemData.item.name}
+            image={itemData.item.profilePicture}
+            onProfileClick={() =>
+                props.navigation.navigate("Profile", {
+                    userId: itemData.item.userId
+                })
+            }
+        />
+    );
 
     return (
         <PaperProvider theme={theme}>
