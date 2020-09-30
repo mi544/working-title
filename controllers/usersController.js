@@ -10,5 +10,10 @@ module.exports = {
         db.UsersDetails.findOne({ where: { UserId: Number(req.params.id) } })
             .then(data => res.json(data))
             .catch(err => res.status(422).json(err));
+    },
+    findProfile: (req, res) => {
+        db.UsersDetails.findOne({ where: { UserId: 3 } })
+            .then(data => res.json(data))
+            .catch(err => res.status(422).json(err));
     }
 };
