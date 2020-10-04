@@ -1,6 +1,7 @@
 module.exports = function (sequelize, DataTypes) {
     const Token = sequelize.define("Token", {
-        token: DataTypes.STRING
+        token: DataTypes.STRING,
+        active: DataTypes.BOOLEAN
     });
 
     Token.associate = function (models) {
