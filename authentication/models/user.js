@@ -6,7 +6,9 @@ module.exports = function (sequelize, DataTypes) {
     });
 
     User.associate = function (models) {
-        User.hasMany(models.Token);
+        User.hasMany(models.Token, {
+            foreignKey: "associatedUser"
+        });
     };
 
     return User;
