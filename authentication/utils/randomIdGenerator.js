@@ -7,7 +7,10 @@ const numbersArr = numbers.split("");
 const generateID = len => {
     const result = [];
     for (let i = 0; i < len; i++) {
-        const numsOrLetters = Math.floor(Math.random() * 2);
+        let numsOrLetters = Math.floor(Math.random() * 2);
+        if (i === 0) {
+            numsOrLetters = 1;
+        }
         if (numsOrLetters === 0) {
             result.push(numbersArr[Math.floor(Math.random() * numbersArr.length)]);
         } else {
