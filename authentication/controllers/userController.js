@@ -3,7 +3,7 @@ const idGen = require("../utils/randomIdGenerator");
 
 module.exports = {
     /**
-     * @typedef CallResult
+     * @typedef UserCallResult
      * @type {object}
      * @property {boolean} success - Specifying whether the call was successful
      * @property {string} reason - Providing a reason if it wasn't successful
@@ -15,7 +15,7 @@ module.exports = {
      * Function is ASYNC! AWAIT it!
      * @param {string} email - The email of account to be created
      * @param {string} password - The password of account to be created
-     * @returns {CallResult} Object with information about the result of creation
+     * @returns {UserCallResult} Object with information about the result of creation
      */
     createUserWithCredentials: async (email, password) => {
         /** Generates a unique ID
@@ -66,7 +66,7 @@ module.exports = {
      * Function is ASYNC! AWAIT it!
      * @param {string} email - The email of account to be validated
      * @param {string} password - The password of account to be validated
-     * @returns {CallResult} Object with information about the result of validation
+     * @returns {UserCallResult} Object with information about the result of validation
      */
     validateUserCredentials: async (email, password) => {
         try {
