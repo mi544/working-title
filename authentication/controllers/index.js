@@ -1,3 +1,4 @@
 module.exports = {
-    sampleController: require("./sampleController")
+    userController: require("./userController"),
+    tokenController: require("./tokenController")
 };
