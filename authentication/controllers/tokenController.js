@@ -7,10 +7,8 @@ module.exports = {
      * @type {object}
      * @property {boolean} success - Specifying whether the call was successful
      * @property {string} reason - Providing a reason if it wasn't successful
+     * @property {string} userId - A userId associated with the token
      * @property {string} token - Token of the user. Only included if the call was successful
-     * @property {object} tokenInstance - Token Sequelize Instance.
-     * Utilize to associate with a particular user.
-     * Only included if the call was successful
      */
 
     /** Creates a token for provided userId
@@ -53,25 +51,22 @@ module.exports = {
                 }
             });
             const associationResult = await TokenInstance.setUser(UserInstance);
-            console.log("associationResult:\n\n\n");
-            console.log(associationResult);
-            console.log("\n\n\n");
             return {
                 success: true,
                 token: (await TokenInstance.toJSON()).token,
-                tokenInstance: associationResult
+                userId: (await UserInstance.toJSON()).userId
             };
         } catch (error) {
             console.log(error);
         }
     },
-    /** Deactivates a specific token
+    /** Provides a userId for a specified token
      *
      * Function is ASYNC! AWAIT it!
-     * @param {string} token - The token to be deactivated
+     * @param {string} token - The token to get a userId for
      * @returns {TokenCallResult} Object with information about the result of the call
      */
-    deactivateTokenOfUser: async token => {
+    getUserIdAssociatedWithToken: async token => {
         try {
             if (!token) return { success: false, reason: "No token provided." };
             const TokenInstance = await db.Token.findOne({
@@ -85,15 +80,116 @@ module.exports = {
                     reason: "Provided token not found."
                 };
             }
-            TokenInstance.active = false;
-            const updatingResult = await TokenInstance.save();
-            console.log("updatingResult:\n\n\n");
-            console.log(updatingResult);
-            console.log("\n\n\n");
+            const UserInstance = await TokenInstance.getUser();
+            if (UserInstance === null) {
+                return {
+                    success: false,
+                    reason: "No user is associated with that token."
+                };
+            }
             return {
                 success: true,
                 token: (await TokenInstance.toJSON()).token,
-                tokenInstance: TokenInstance
+                userId: (await UserInstance.toJSON()).userId
+            };
+        } catch (error) {
+            console.log(error);
+        }
+    },
+    /** Provides all tokens for a specified userId
+     *
+     * Function is ASYNC! AWAIT it!
+     * @param {string} userId - The userId to get tokens for
+     * @returns {TokenCallResult} Object with information about the result of the call
+     */
+    getAllTokensAssociatedWithUserId: async userId => {
+        try {
+            if (!userId) return { success: false, reason: "No userId provided." };
+            const UserInstance = await db.User.findOne({
+                where: {
+                    userId: userId
+                }
+            });
+            if (UserInstance === null) {
+                return {
+                    success: false,
+                    reason: "Provided user not found."
+                };
+            }
+            const AssociatedTokenInstancesArray = await UserInstance.getTokens();
+            const AssociatedTokensArray = AssociatedTokenInstancesArray.map(
+                async item => (await item.toJSON()).token
+            );
+            const ResolvedTokensArray = await Promise.all(AssociatedTokensArray);
+            console.log(ResolvedTokensArray);
+            return {
+                success: true,
+                token: ResolvedTokensArray,
+                userId: (await UserInstance.toJSON()).userId
+            };
+        } catch (error) {
+            console.log(error);
+        }
+    },
+    /** Deactivates a specific token
+     *
+     * Function is ASYNC! AWAIT it!
+     * @param {string} token - The token to be deactivated
+     * @param {string} userId - The userId associated with this token
+     * @returns {TokenCallResult} Object with information about the result of the call
+     */
+    deactivateTokenOfUser: async (token, userId) => {
+        try {
+            if (!token) return { success: false, reason: "No token provided." };
+            if (!userId) return { success: false, reason: "No userId provided." };
+            const TokenInstance = await db.Token.findOne({
+                where: {
+                    token: token
+                }
+            });
+            if (TokenInstance === null) {
+                return {
+                    success: false,
+                    reason: "Provided token not found."
+                };
+            }
+            const AssociatedUserInstance = await TokenInstance.getUser();
+            if (AssociatedUserInstance === null) {
+                return {
+                    success: false,
+                    reason: "No user is associated with the provided token."
+                };
+            }
+            const ReceivedUserInstance = await db.User.findOne({
+                where: { userId: userId }
+            });
+            if (ReceivedUserInstance === null) {
+                return {
+                    success: false,
+                    reason: "No user found with provided userId."
+                };
+            }
+            if (
+                (await AssociatedUserInstance.toJSON()).userId !==
+                (await ReceivedUserInstance.toJSON()).userId
+            ) {
+                return {
+                    success: false,
+                    reason: "Access denied - provided token belongs to a different user."
+                };
+            }
+            if (TokenInstance.active === false) {
+                return {
+                    success: false,
+                    reason: "Provided token is already deactivated."
+                };
+            }
+            TokenInstance.active = false;
+            const updatingResult = await TokenInstance.save();
+            return {
+                success: true,
+                token: (await TokenInstance.toJSON()).token,
+                userId: (await AssociatedUserInstance.toJSON()).userId
             };
         } catch (error) {
             console.log(error);
@@ -102,15 +198,15 @@ module.exports = {
     /** Deactivates all tokens for a specific user
      *
      * Function is ASYNC! AWAIT it!
-     * @param {string} userId - The userId of the account to deactivate all tokens for
      * @param {string} activeToken - The token of the account to remain active
+     * @param {string} userId - The userId of the account to deactivate all tokens for
      * @returns {TokenCallResult} Object with information about the result of the call
      */
-    deactivateAllTokensOfUserBesidesActive: async (userId, activeToken) => {
+    deactivateAllTokensOfUserBesidesActive: async (activeToken, userId) => {
         try {
-            if (!userId) return { success: false, reason: "No usedId provided." };
             if (!activeToken)
                 return { success: false, reason: "No active token provided." };
+            if (!userId) return { success: false, reason: "No usedId provided." };
             const ActiveTokenInstance = await db.Token.findOne({
                 where: {
                     token: activeToken
@@ -122,18 +218,34 @@ module.exports = {
                     reason: "Provided token not found."
                 };
             }
-            const UserInstance = await db.User.findOne({
+            const AssociatedUserInstance = await ActiveTokenInstance.getUser();
+            if (AssociatedUserInstance === null) {
+                return {
+                    success: false,
+                    reason: "No user is associated with the provided token."
+                };
+            }
+            const ReceivedUserInstance = await db.User.findOne({
                 where: {
                     userId: userId
                 }
             });
-            if (UserInstance === null) {
+            if (ReceivedUserInstance === null) {
                 return {
                     success: false,
                     reason: "Provided userId not found."
                 };
             }
-            const associatedTokens = await UserInstance.getTokens();
+            if (
+                (await AssociatedUserInstance.toJSON()).userId !==
+                (await ReceivedUserInstance.toJSON()).userId
+            ) {
+                return {
+                    success: false,
+                    reason: "Access denied - provided token belongs to a different user."
+                };
+            }
+            const associatedTokens = await ReceivedUserInstance.getTokens();
             for (token of associatedTokens) {
                 const CurrentTokenInstance = token;
                 if ((await CurrentTokenInstance.toJSON().token) !== activeToken) {
@@ -145,7 +257,7 @@ module.exports = {
             return {
                 success: true,
                 token: (await ActiveTokenInstance.toJSON()).token,
-                tokenInstance: ActiveTokenInstance
+                userId: (await ReceivedUserInstance.toJSON()).userId
             };
         } catch (error) {
             console.log(error);
