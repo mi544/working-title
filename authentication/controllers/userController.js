@@ -39,6 +39,8 @@ module.exports = {
             }
         };
         try {
+            if (!email) return { success: false, reason: "No email provided." };
+            if (!password) return { success: false, reason: "No password provided." };
             const queryEmail = await db.User.findOne({
                 where: { email: email }
             });
