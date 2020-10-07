@@ -56,7 +56,7 @@ module.exports = {
             });
             return {
                 success: true,
-                userId: await creationResult.toJSON().userId
+                userId: (await creationResult.toJSON()).userId
             };
         } catch (error) {
             console.log(error);
@@ -92,7 +92,7 @@ module.exports = {
                     // Password matches -> user validated
                     return {
                         success: true,
-                        userId: await queryEmailPasswordResult.toJSON().userId
+                        userId: (await queryEmailPasswordResult.toJSON()).userId
                     };
                 }
             }
