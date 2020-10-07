@@ -8,6 +8,10 @@ module.exports = {
      * @property {boolean} success - Specifying whether the call was successful
      * @property {string} reason - Providing a reason if it wasn't successful
      * @property {string} userId - userId of the user. Only included if the call was successful
+     * @property {object} UserInstance - User Sequelize Instance.
+     * Utilize to associate with a particular token.
+     * Only included if the call was successful
+
      */
 
     /** Creates a user with provided credentials
@@ -56,7 +60,8 @@ module.exports = {
             });
             return {
                 success: true,
-                userId: (await creationResult.toJSON()).userId
+                userId: (await creationResult.toJSON()).userId,
+                UserInstance: creationResult
             };
         } catch (error) {
             console.log(error);
@@ -92,7 +97,8 @@ module.exports = {
                     // Password matches -> user validated
                     return {
                         success: true,
-                        userId: (await queryEmailPasswordResult.toJSON()).userId
+                        userId: (await queryEmailPasswordResult.toJSON()).userId,
+                        UserInstance: queryEmailPasswordResult
                     };
                 }
             }
