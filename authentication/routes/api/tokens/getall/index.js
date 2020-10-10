@@ -11,6 +11,7 @@ router.route("/").get(async (req, res) => {
         }
 
         const allTokens = await controller.tokenController.getAllTokensAssociatedWithUserId(
+            req.body.activeToken,
             req.body.userId
         );
 
