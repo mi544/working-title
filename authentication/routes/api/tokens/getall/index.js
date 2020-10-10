@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const controller = require("../../../../controllers");
 
-router.route("/").put(async (req, res) => {
+router.route("/").get(async (req, res) => {
     try {
         if (!req.body.userId) {
             return res.send({ success: false, reason: "No userId provided." });
