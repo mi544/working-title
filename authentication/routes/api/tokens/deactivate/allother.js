@@ -11,8 +11,8 @@ router.route("/").put(async (req, res) => {
         }
 
         const deactivationResult = await controller.tokenController.deactivateAllTokensOfUserBesidesActive(
-            req.body.userId,
-            req.body.activeToken
+            req.body.activeToken,
+            req.body.userId
         );
 
         if (!deactivationResult.success) {
