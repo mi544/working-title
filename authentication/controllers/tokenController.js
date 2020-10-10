@@ -80,6 +80,12 @@ module.exports = {
                     reason: "Provided token not found."
                 };
             }
+            if (!TokenInstance.active) {
+                return {
+                    success: false,
+                    reason: "Provided token is not active."
+                };
+            }
             const UserInstance = await TokenInstance.getUser();
             if (UserInstance === null) {
                 return {
@@ -180,6 +186,12 @@ module.exports = {
                     reason: "Provided token not found."
                 };
             }
+            if (!TokenInstance.active) {
+                return {
+                    success: false,
+                    reason: "Provided token is not active."
+                };
+            }
             const AssociatedUserInstance = await TokenInstance.getUser();
             if (AssociatedUserInstance === null) {
                 return {
@@ -240,6 +252,12 @@ module.exports = {
                 return {
                     success: false,
                     reason: "Provided token not found."
+                };
+            }
+            if (!ActiveTokenInstance.active) {
+                return {
+                    success: false,
+                    reason: "Provided token is not active."
                 };
             }
             const AssociatedUserInstance = await ActiveTokenInstance.getUser();
