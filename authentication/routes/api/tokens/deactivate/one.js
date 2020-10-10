@@ -6,9 +6,13 @@ router.route("/").put(async (req, res) => {
         if (!req.body.token) {
             return res.send({ success: false, reason: "No token provided." });
         }
+        if (!req.body.userId) {
+            return res.send({ success: false, reason: "No userId provided." });
+        }
 
         const deactivationResult = await controller.tokenController.deactivateTokenOfUser(
-            req.body.token
+            req.body.token,
+            req.body.userId
         );
 
         if (!deactivationResult.success) {
