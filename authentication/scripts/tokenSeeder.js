@@ -1,24 +1,37 @@
 const db = require("../models");
 const { exit } = require("process");
+const controller = require("../controllers");
 
 const dataToSeed = [
-    { id: 1, token: "25t4td9w25tgrdsfgsdh3Sg", active: true },
-    { id: 2, token: "sf2rwerghjyt5ersdfghedf", active: false },
-    { id: 3, token: "432wedfgjyy5t4ewfsdfhtf", active: true }
+    {
+        email: "example@email.com",
+        password: "12gmj3kd@tghfds"
+    },
+    {
+        email: "now@email.com",
+        password: "dg5943E3%23h"
+    },
+    {
+        email: "later@email.com",
+        password: "dgh43io)@tyrgdS"
+    }
 ];
 
-db.sequelize
-    .sync({ force: false })
-    .then(async () => {
+db.sequelize.sync({ force: false }).then(async () => {
+    try {
         for (const item of dataToSeed) {
-            const UserInstance = await db.User.findByPk(item.id);
-            const TokenInstance = await db.Token.create({
-                token: item.token,
-                active: item.active
-            });
-            await UserInstance.addToken(TokenInstance);
+            const userLookupResult = await controller.userController.validateUserCredentials(
+                item.email,
+                item.password
+            );
+            console.log("SUPPPERR", userLookupResult.userId);
+            await controller.tokenController.createAndAssignTokenToUser(
+                userLookupResult.userId
+            );
         }
-        console.log("Successfully added and associated the tokens!");
         exit();
-    })
-    .catch(err => console.log(err));
+    } catch (error) {
+        console.log(error);
+        exit();
+    }
+});
