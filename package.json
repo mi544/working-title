@@ -1,0 +1,24 @@
+{
+  "name": "working-title",
+  "version": "1.0.0",
+  "description": "A React Native app that interacts with the back-end server, requesting data and user information. Currently in development. Uses [Expo.io](https://expo.io/).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mi544/working-title.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mi544/working-title/issues"
+  },
+  "homepage": "https://github.com/mi544/working-title#readme",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^8.2.1"
+  }
+}
